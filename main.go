@@ -11,9 +11,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	cname, err := ioutil.ReadFile("docs/CNAME")
+	if err != nil {
+		panic(err)
+	}
 	os.RemoveAll("docs/")
 	os.Mkdir("docs/", 0700)
 	err = ioutil.WriteFile("docs/style.css", style, 0700)
+	if err != nil {
+		panic(err)
+	}
+	err = ioutil.WriteFile("docs/CNAME", cname, 0700)
 	if err != nil {
 		panic(err)
 	}
