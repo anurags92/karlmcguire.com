@@ -97,7 +97,7 @@ body {
 	.posts__body__post {
 		line-height: 1;
 		display: flex;
-		font-size: 1.1em;
+		font-size: 1em;
 		margin: 0 -1em;	
 		padding: 0.5em 1em;
 	}
