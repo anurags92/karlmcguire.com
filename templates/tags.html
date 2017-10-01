@@ -1,0 +1,19 @@
+{{ define "content" }}			
+<div class="box__item posts">
+	<div class="posts__title">
+		Tags	
+	</div>
+	<div class="posts__body">
+		{{ range $key, $tag := .Tags }}
+			<div class="posts__body__post">
+				<div class="posts__body__post__title">
+					<a href="/tags/{{ $tag.Name }}/">{{ $tag.Name }}</a>
+				</div>
+				<div class="posts__body__post__date">
+					{{ len $tag.Posts }} posts	
+				</div>
+			</div>
+		{{ end }}
+	</div>
+</div>
+{{ end }}

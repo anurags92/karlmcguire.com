@@ -1,0 +1,19 @@
+{{ define "content" }}			
+<div class="box__item posts">
+	<div class="posts__title">
+		Posts	
+	</div>
+	<div class="posts__body">
+		{{ range $key, $post := .Posts }}
+			<div class="posts__body__post">
+				<div class="posts__body__post__title">
+					<a href="/{{ $post.Path }}/">{{ $post.Title }}</a>
+				</div>
+				<div class="posts__body__post__date">
+					{{ $post.Date }}
+				</div>
+			</div>
+		{{ end }}
+	</div>
+</div>
+{{ end }}
