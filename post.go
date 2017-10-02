@@ -80,12 +80,14 @@ func ReadPost(d string) (*Post, error) {
 		tags = append(tags, tag)
 	}
 
+	//Path:     strings.Replace(strings.ToLower(post.Title), " ", "-", -1),
+
 	return &Post{
 		Title:    post.Title,
 		Time:     t,
 		Date:     t.Format("January 2, 2006"),
 		Tags:     tags,
-		Path:     strings.Replace(strings.ToLower(post.Title), " ", "-", -1),
+		Path:     strings.Split(d, "/")[1],
 		Markdown: string(post.Markdown),
 		Html:     string(blackfriday.MarkdownCommon(post.Markdown)),
 	}, nil
