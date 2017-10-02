@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/russross/blackfriday"
 	"io/ioutil"
+	"sort"
 	"strings"
 	"time"
 )
@@ -19,11 +20,15 @@ type Post struct {
 }
 
 func (p *Post) Render(dir string) error {
+	sort.Strings(p.Tags)
+
 	return Render(dir+p.Path+"/", "templates/post.html",
 		&struct {
+			Title    string
 			Selected string
 			Post     *Post
-		}{" ", p},
+			Max      int
+		}{p.Title, " ", p, len(p.Tags) - 1},
 	)
 }
 

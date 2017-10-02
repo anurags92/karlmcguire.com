@@ -27,9 +27,10 @@ func (t Tags) Render(dir string) error {
 
 	err := Render(dir+"tags/", "templates/tags.html",
 		&struct {
+			Title    string
 			Selected string
 			Tags     Tags
-		}{"tags", t},
+		}{"Tags", "tags", t},
 	)
 	if err != nil {
 		return err

@@ -14,8 +14,9 @@ type Tag struct {
 func (t *Tag) Render(dir string) error {
 	return Render(dir+t.Name+"/", "templates/tag.html",
 		&struct {
+			Title    string
 			Selected string
 			Tag      *Tag
-		}{" ", t},
+		}{"Tag - " + t.Name, " ", t},
 	)
 }

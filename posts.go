@@ -61,9 +61,10 @@ func (p Posts) Render(dir string) error {
 
 	return Render(dir+"posts/", "templates/posts.html",
 		&struct {
+			Title    string
 			Selected string
 			Posts    Posts
-		}{"posts", p},
+		}{"Posts", "posts", p},
 	)
 }
 

@@ -35,19 +35,14 @@ func main() {
 	tags := posts.Tags()
 	tags.Render("docs/")
 
-	// render index.html and about/
+	// render index.html
 	if err = Render("docs/", "templates/index.html",
 		&struct {
+			Title    string
 			Selected string
 			Tags     Tags
 			Posts    Posts
-		}{"index", tags, posts}); err != nil {
-		panic(err)
-	}
-	if err = Render("docs/about/", "templates/about.html",
-		&struct {
-			Selected string
-		}{"about"}); err != nil {
+		}{"Karl McGuire", "index", tags, posts}); err != nil {
 		panic(err)
 	}
 }

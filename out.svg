@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="680px" height="150px" viewBox="0 0 680 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-4">
+            <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="680" height="150"></rect>
+            <g id="Group-3" transform="translate(120.645161, 74.000000)" stroke="#555555" stroke-linecap="square">
+                <path d="M323.070248,1.5 L436.219275,1.5" id="Line"></path>
+                <path d="M0.496267662,1.5 L109.675153,1.5" id="Line"></path>
+            </g>
+            <g id="Group" transform="translate(40.879765, 35.000000)">
+                <ellipse id="Oval" fill="#555555" cx="39.8826979" cy="40" rx="39.8826979" ry="40"></ellipse>
+                <text id="You" font-family="Helvetica" font-size="20" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="23.5062317" y="47">You</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(559.354839, 35.000000)">
+                <ellipse id="Oval" fill="#555555" cx="39.8826979" cy="40" rx="39.8826979" ry="40"></ellipse>
+                <text id="Goal" font-family="Helvetica" font-size="20" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="19.2581848" y="47">Goal</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(233.313783, 35.000000)">
+                <rect id="Rectangle-2" fill="#628CC3" x="0" y="0" width="213.372434" height="80"></rect>
+                <text id="Vehicle" font-family="Helvetica" font-size="20" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="74.9179835" y="47.4193548">Vehicle</tspan>
+                </text>
+            </g>
+            <polygon id="Triangle" fill="#555555" transform="translate(229.824047, 75.500000) rotate(90.000000) translate(-229.824047, -75.500000) " points="229.824047 72 234.31085 79 225.337243 79"></polygon>
+            <polygon id="Triangle" fill="#555555" transform="translate(555.865103, 75.500000) rotate(90.000000) translate(-555.865103, -75.500000) " points="555.865103 72 560.351906 79 551.378299 79"></polygon>
+        </g>
+    </g>
+</svg>
