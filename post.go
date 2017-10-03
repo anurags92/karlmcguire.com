@@ -10,13 +10,14 @@ import (
 )
 
 type Post struct {
-	Title    string
-	Time     time.Time
-	Date     string
-	Tags     []string
-	Markdown string
-	Html     string
-	Path     string
+	Title       string
+	Time        time.Time
+	Date        string
+	Tags        []string
+	Description string
+	Markdown    string
+	Html        string
+	Path        string
 }
 
 func (p *Post) Render(dir string) error {
@@ -24,11 +25,12 @@ func (p *Post) Render(dir string) error {
 
 	return Render(dir+p.Path+"/", "templates/post.html",
 		&struct {
-			Title    string
-			Selected string
-			Post     *Post
-			Max      int
-		}{p.Title, " ", p, len(p.Tags) - 1},
+			Title       string
+			Selected    string
+			Description string
+			Post        *Post
+			Max         int
+		}{p.Title, " ", p.Description, p, len(p.Tags) - 1},
 	)
 }
 
@@ -41,10 +43,11 @@ func ReadPost(d string) (*Post, error) {
 	var (
 		t    time.Time
 		post struct {
-			Title    string   `json:"title"`
-			Tags     []string `json:"tags"`
-			Date     string   `json:"date"`
-			Markdown []byte
+			Title       string   `json:"title"`
+			Tags        []string `json:"tags"`
+			Date        string   `json:"date"`
+			Description string   `json:"description"`
+			Markdown    []byte
 		}
 	)
 
@@ -83,12 +86,13 @@ func ReadPost(d string) (*Post, error) {
 	//Path:     strings.Replace(strings.ToLower(post.Title), " ", "-", -1),
 
 	return &Post{
-		Title:    post.Title,
-		Time:     t,
-		Date:     t.Format("January 2, 2006"),
-		Tags:     tags,
-		Path:     strings.Split(d, "/")[1],
-		Markdown: string(post.Markdown),
-		Html:     string(blackfriday.MarkdownCommon(post.Markdown)),
+		Title:       post.Title,
+		Time:        t,
+		Date:        t.Format("January 2, 2006"),
+		Tags:        tags,
+		Description: post.Description,
+		Path:        strings.Split(d, "/")[1],
+		Markdown:    string(post.Markdown),
+		Html:        string(blackfriday.MarkdownCommon(post.Markdown)),
 	}, nil
 }

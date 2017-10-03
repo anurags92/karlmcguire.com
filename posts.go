@@ -61,10 +61,11 @@ func (p Posts) Render(dir string) error {
 
 	return Render(dir+"posts/", "templates/posts.html",
 		&struct {
-			Title    string
-			Selected string
-			Posts    Posts
-		}{"Posts", "posts", p},
+			Title       string
+			Selected    string
+			Posts       Posts
+			Description string
+		}{"Posts", "posts", p, "All of Karl McGuire's posts."},
 	)
 }
 

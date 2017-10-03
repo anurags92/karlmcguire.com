@@ -1,6 +1,6 @@
 I used to pride myself in my intolerance of inefficiencies. 
 When I was writing code I might rewrite a function five times. 
-Each time focusing on less lines and better performance. 
+Each time resulting in less lines and better performance. 
 By the time I was done, I felt satisfied.
 I felt like I "discovered" the shortest path, and it felt *good*.
 However, when I glanced at the clock, I was shocked to see how much time had passed... 
@@ -34,15 +34,15 @@ This seductive trap is what I call the timid innovation cycle.
 
 ## The timid innovation cycle
 
-The timid innovation cycle is loop of four things:
+The timid innovation cycle is a feedback loop comprising of three things:
 
 1. Lack of self awareness
 2. Information seeking 
 3. Fear of missing out 
-4. Repeat
 
-I'm speaking from experience here as this has been my life for the past year.
-I've noticed it's not just me either -- so hopefully this can shed some light on the problem and possible solutions.
+I'm speaking from experience as this has been my life for the past year.
+When I noticed other people falling into the same trap, I realized it might be more widespread than I thought.
+Hopefully this can shed some light on the problem.
 
 ### 1. Lack of self awareness
 
@@ -55,19 +55,19 @@ your vehicle is inherently dependent on your strengths and weaknesses.
 
 When you don't adjust your vehicle accordingly (and other people do),
 you might notice a lack of results.
-This causes the *timid* feeling fueling this whole cycle.
+This causes the *timidity* fueling this whole cycle.
 Your vehicle might work a little bit, but deep down you feel like there's something better.
 
 ### 2. Information seeking
 
-That doubt brings us to the next part of the cycle.
+That doubt brings you to the next part of the cycle.
 
-Our first instinct as to why we are doubting our vehicle is because it's bad.
-And it *is* bad, just not in the way we think. 
-It's bad because it doesn't account for our own strengths and weaknesses, yet we think it's inherently bad.
+Your first instinct as to why you are doubting your vehicle is because it's bad.
+And it *is* bad, just not in the way you think. 
+It's bad because it doesn't account for your own strengths and weaknesses, yet you think it's inherently bad.
 
 It's natural to dislike doubt, and information is one of the easiest ways to dampen it. 
-So, we seek out a new, "better" vehicle. 
+So, you seek out a new, "better" vehicle. 
 You eventually find someone who had the same goal as you and achieved it in &lt;insert suprisingly short amount of time here&gt;. 
 Immediately you are intrigued... 
 Dopamine floods your brain, and everything makes sense.
@@ -87,7 +87,7 @@ Eventually, the initial high of your new vehicle wears off.
 You start to see that it's not working as well as you thought it would. 
 The doubt creeps back in, and you start the timid innovation cycle all over again.
 
-### 4. Repeat
+### Repeat, forever
 
 You might see some success in your short bursts of effort.
 But while you're constantly blaming your vehicle for a lack of results,
@@ -95,46 +95,46 @@ constantly switching to "better ways,"
 and never reaching your goal,
 time is passing by.
 
-**The worst realization is that if you had just *comitted* to one "inefficient vehicle,"
-you would have already gotten closer to achieving your goal, or even achieved it by now.**
+**The worst realization is that if you had just *committed* to one "inefficient vehicle,"
+you would have gotten closer to achieving your goal, or even achieved it by now.**
 
 ---
 
 ## Breaking the cycle
 
-I'm passionate about breaking this cycle because I've seen the effects in my own life and others.
-The thing about the timid innovation cycle is that it takes a lot of energy out of you.
+I'm passionate about breaking this cycle because I've seen its effects in my own life and others.
+The seductive nature of the timid innovation cycle is due to the energy it sucks out of you.
 Constantly doubting yourself, researching, changing your mind, and sprinting for two weeks at a time  *feels* like "real work."
 But when you look back at the results of all that "work," you realize you aren't any closer to your goal than when you started.
 
 I'm not entirely sure how to break this cycle, but just being aware of it has drastically changed my perspective.
 
-Here's what I'm doing right now to limit its effects:
+Here's the four principles that are working for me:
 
-1. Know my strengths and weaknesses
-2. Not comparing myself to others
-3. Seeking *experience* rather than *information*
-4. Trusting in fundamentals
+1. Know your strengths and weaknesses
+2. Don't compare yourself to others
+3. Seek *experiences* rather than *information*
+4. Trust in the fundamentals
 
-### 1. Know my strengths and weaknesses
+### 1. Know your strengths and weaknesses
 
 As I said before, the timid innovation cycle stems from a lack of self awareness.
-When *your* vehicle doesn't account for *your* traits, bad things happen.
+When *your* vehicle doesn't account for *your* abilities, bad things happen.
 
-This self-assessment is one of the reasons I'm writing this post.
+This constant process of self awareness is one of the reasons I'm writing this post.
 The timid innovation cycle is a big weakness of mine.
 So any future vehicles need to account for that, and work to dampen it.
 
-### 2. Not comparing myself to others
+### 2. Don't compare yourself to others
 
 With social media today it's easy to compare yourself to the lives of others.
 When all you see is the highlights of someone's life, our gut reaction is to feel inferior.
 
 The same principle applies to new "vehicles," or methods for achieving your goal.
-Comparing yourself to someone else who achieved your goal doesn't account for their strenghts and weaknesses.
+Comparing yourself to someone else who achieved your goal doesn't account for their strengths and weaknesses.
 Their vehicle is not the best vehicle for you.
 
-### 3. Seeking *experience* rather than *information*
+### 3. Seek *experiences* rather than *information*
 
 One of the best ways to identify your strengths and weaknesses is to *try things.*
 
@@ -142,7 +142,7 @@ These days rather than seeking outside information on how to improve my vehicles
 I go with my gut and test things.
 Based on the results, I adjust, and my vehicle evolves to be most efficient for *me*.
 
-### 4. Trusting in fundamentals
+### 4. Trust in the fundamentals
 
 I think a major factor in information seeking is a fear of change.
 Things change fast, especially in tech, and if you are too concerned with details, you'll never keep up.
@@ -153,8 +153,12 @@ Details change too fast to rely on information, you need to do small tests and s
 
 ---
 
-## Don't tolerate timidity 
+## Tolerate inefficiency not timidity 
 
 If you've read this far, you probably noticed where the timid innovation cycle is manifesting in your own life.
 I think that's the most important step in stopping it.
 Whether it has consumed months of your life, or years, now is the time to stop tolerating it.
+
+You can't always find the absolute shortest path to your goals.
+It's only clear in hindsight.
+And by then, you're on to the next goal.
