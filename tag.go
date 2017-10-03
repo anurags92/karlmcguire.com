@@ -14,9 +14,10 @@ type Tag struct {
 func (t *Tag) Render(dir string) error {
 	return Render(dir+t.Name+"/", "templates/tag.html",
 		&struct {
-			Title    string
-			Selected string
-			Tag      *Tag
-		}{"Tag - " + t.Name, " ", t},
+			Title       string
+			Selected    string
+			Tag         *Tag
+			Description string
+		}{"Tag - " + t.Name, " ", t, "All of Karl McGuire's posts labeled with the '" + t.Name + "' tag."},
 	)
 }
