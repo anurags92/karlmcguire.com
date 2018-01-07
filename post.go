@@ -2,11 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"sort"
 	"strings"
 	"time"
+	
+	"github.com/russross/blackfriday"
 )
 
 type Post struct {
