@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/xba/html"
 	"gopkg.in/russross/blackfriday.v2"
@@ -212,6 +215,23 @@ func GetPosts(path string) []string {
 	return posts
 }
 
+func GetPostTitles(path string) [][]string {
+	posts := GetPosts(path)
+
+	titles := make([][]string, 0)
+	for _, post := range posts {
+		title, date, _, _ := ParsePost(post)
+
+		titles = append(titles,
+			[]string{title, date, "/docs/" + post[:len(post)-3] + "/"})
+	}
+
+	// sort in descending order
+	sort.Sort(SortablePosts(titles))
+
+	return titles
+}
+
 // PutPosts takes a string slice of post paths (to the markdown files) and
 // creates a directory for each post, with an index.html containing the
 // rendered post content.
@@ -232,6 +252,71 @@ func PutPosts(paths []string) {
 				HEADER(""),
 				POST(title, date, tags, content),
 				FOOTER(YEAR, NOTE)), os.ModePerm)
+	}
+}
+
+type Sortable struct {
+	data [][]string
+	len  func([][]string) int
+	less func([][]string, int, int) bool
+	swap func([][]string, int, int)
+}
+
+func (s *Sortable) Len() int           { return s.len(s.data) }
+func (s *Sortable) Less(i, j int) bool { return s.less(s.data, i, j) }
+func (s *Sortable) Swap(i, j int)      { s.swap(s.data, i, j) }
+
+func SortableTags(tags [][]string) sort.Interface {
+	return &Sortable{
+		data: tags,
+
+		len:  func(d [][]string) int { return len(d) },
+		swap: func(d [][]string, i, j int) { d[i], d[j] = d[j], d[i] },
+
+		less: func(d [][]string, i, j int) bool {
+			// get the int count of i tag
+			ii, err := strconv.Atoi(d[i][1][:strings.Index(d[i][1], " ")])
+			if err != nil {
+				panic(err)
+			}
+
+			// get the int count of j tag
+			ji, err := strconv.Atoi(d[j][1][:strings.Index(d[j][1], " ")])
+			if err != nil {
+				panic(err)
+			}
+
+			// descending order
+			return ii > ji
+		},
+	}
+}
+
+func SortablePosts(posts [][]string) sort.Interface {
+	return &Sortable{
+		data: posts,
+
+		len:  func(d [][]string) int { return len(d) },
+		swap: func(d [][]string, i, j int) { d[i], d[j] = d[j], d[i] },
+
+		less: func(d [][]string, i, j int) bool {
+			format := "January 2, 2006"
+
+			// get the date of the i post
+			it, err := time.Parse(format, d[i][1])
+			if err != nil {
+				panic(err)
+			}
+
+			// get the date of the j post
+			jt, err := time.Parse(format, d[j][1])
+			if err != nil {
+				panic(err)
+			}
+
+			// newest articles up top
+			return jt.Before(it)
+		},
 	}
 }
 
@@ -257,6 +342,9 @@ func GetTags(path string) [][]string {
 		out = append(out, []string{tag, fmt.Sprintf("%d posts", count)})
 	}
 
+	// sort in descending order
+	sort.Sort(SortableTags(out))
+
 	return out
 }
 
@@ -272,4 +360,5 @@ func main() {
 	*/
 
 	fmt.Println(GetTags("posts/"))
+	fmt.Println(GetPostTitles("posts/"))
 }
