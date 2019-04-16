@@ -2,12 +2,18 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
 
 	"github.com/xba/html"
 	"gopkg.in/russross/blackfriday.v2"
+)
+
+const (
+	YEAR = "2019"
+	NOTE = "~"
 )
 
 func PAGE(head, header, content, footer []byte) []byte {
@@ -190,20 +196,80 @@ func ParsePost(path string) (string, string, []string, []byte) {
 		blackfriday.Run(buff.Bytes())
 }
 
+// GetPosts takes in a directory path and returns a string slice of path for
+// each file contained in the directory path.
+func GetPosts(path string) []string {
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		panic(err)
+	}
+
+	posts := make([]string, len(files))
+	for i, file := range files {
+		posts[i] = path + file.Name()
+	}
+
+	return posts
+}
+
+// PutPosts takes a string slice of post paths (to the markdown files) and
+// creates a directory for each post, with an index.html containing the
+// rendered post content.
+func PutPosts(paths []string) {
+	for _, path := range paths {
+		full := "./docs/" + path[:len(path)-3] + "/"
+
+		// create /docs/posts/post-title/ directory
+		os.MkdirAll(full, os.ModePerm)
+
+		// parse post md
+		title, date, tags, content := ParsePost(path)
+
+		// write index.html
+		ioutil.WriteFile(full+"index.html",
+			PAGE(
+				HEAD(title, ""),
+				HEADER(""),
+				POST(title, date, tags, content),
+				FOOTER(YEAR, NOTE)), os.ModePerm)
+	}
+}
+
+func GetTags(path string) [][]string {
+	// get list of all post paths
+	posts := GetPosts(path)
+
+	// will hold all tags
+	all := make(map[string]int)
+
+	for _, post := range posts {
+		// get tags of post
+		_, _, tags, _ := ParsePost(post)
+
+		for _, tag := range tags {
+			all[tag]++
+		}
+	}
+
+	// create [][]string from map with tag name and post count string
+	out := make([][]string, 0)
+	for tag, count := range all {
+		out = append(out, []string{tag, fmt.Sprintf("%d posts", count)})
+	}
+
+	return out
+}
+
 func main() {
 	/*
-		os.Stdout.Write(PAGE(
-			HEAD("title", "desc"),
-			HEADER("/"),
-			POST(ParsePost("posts/hello-world.md")),
-			FOOTER("2019", "This is a note.")))
+		os.Stdout.Write(
+			LIST(
+				"title",
+				"href",
+				[][]string{
+					{"programming", "/programming/", "5 posts"},
+					{"personal", "/personal/", "2 posts"}}))
 	*/
 
-	os.Stdout.Write(
-		LIST(
-			"title",
-			"href",
-			[][]string{
-				{"programming", "/programming/", "5 posts"},
-				{"personal", "/personal/", "2 posts"}}))
+	fmt.Println(GetTags("posts/"))
 }
