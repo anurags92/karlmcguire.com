@@ -7,7 +7,7 @@ body {
 }
 
 #instantclick-bar {
-  background: #333;
+  background: #1e71a1;
 }
 
 .wrap {
@@ -49,6 +49,9 @@ main {
   .content {
     font-size: 18px;
   }
+    .content > *:first-child {
+      margin-top: 2rem; 
+    }
     .content > *:last-child {
       margin-bottom: 0; 
     }
@@ -75,6 +78,7 @@ main {
       margin: 0;
       font-size: 2rem;
       margin-bottom: 2rem;
+      display: inline-block;
     }
   .meta {
     border-bottom: 1px solid #ddd;

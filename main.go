@@ -16,10 +16,9 @@ import (
 
 const (
 	YEAR = "2019"
-	NOTE = `<a href="mailto:karl@karlmcguire.com">Contact</a>`
+	NOTE = `Made with <a href="https://golang.org/">Go</a>.`
 
 	SCRIPTS = `
-	<script src="instantclick.min.js" data-no-instant></script>
 	<script data-no-instant>InstantClick.init();</script>`
 )
 
@@ -56,7 +55,17 @@ func HEAD(title, desc string) []byte {
 					"name", "description",
 					"content", desc)),
 			html.E("title", nil, []byte(title)),
+			// code highlight
+			/*html.T("link",
+				html.A(
+					"rel", "stylesheet",
+					"href", "/code.css")),
+			html.E("script", html.A("src", "/highlight.pack.js"), nil),
+			html.E("script", nil,
+				[]byte("hljs.initHighlightingOnLoad();")),*/
+			// instant click
 			html.E("script", html.A("src", "/ic.min.js"), nil),
+			// roboto font
 			html.T("link",
 				html.A(
 					"href",
@@ -69,7 +78,7 @@ func HEAD(title, desc string) []byte {
 			html.T("link",
 				html.A(
 					"rel", "shortcut icon",
-					"href", "favicon.ico"))))
+					"href", "/favicon.ico"))))
 }
 
 func HEADER(active string) []byte {
@@ -98,9 +107,10 @@ func HEADER(active string) []byte {
 						html.E("a", tagsAttr, []byte("Tags")))))))
 }
 
-func POST(title, date string, tags []string, content []byte) []byte {
-	href := "/posts/" +
-		strings.ReplaceAll(strings.ToLower(title), " ", "-") + "/"
+func POST(path, title, date string, tags []string, content []byte) []byte {
+	// href := "/posts/" +
+	// 	strings.ReplaceAll(strings.ToLower(title), " ", "-") + "/"
+	href := "/" + path[:len(path)-3] + "/"
 
 	for i := range tags {
 		tags[i] = string(
@@ -151,7 +161,7 @@ func FOOTER(year, note string) []byte {
 			html.E("span", nil, []byte(note))))
 }
 
-func ParsePost(path string) (string, string, []string, []byte) {
+func ParsePost(path string) (string, string, string, []string, []byte) {
 	var (
 		data []byte
 		err  error
@@ -199,7 +209,8 @@ func ParsePost(path string) (string, string, []string, []byte) {
 		panic(err)
 	}
 
-	return title[:len(title)-1],
+	return path,
+		title[:len(title)-1],
 		date[:len(date)-1],
 		strings.Split(tags[:len(tags)-1], " "),
 		blackfriday.Run(buff.Bytes())
@@ -228,7 +239,7 @@ func GetPostTitles(path string) [][]string {
 
 	titles := make([][]string, 0)
 	for _, post := range posts {
-		title, date, _, _ := ParsePost(post)
+		_, title, date, _, _ := ParsePost(post)
 
 		titles = append(titles,
 			[]string{title, "/posts/" + post[:len(post)-3] + "/", date})
@@ -251,7 +262,7 @@ func GetTags(path string) [][]string {
 
 	for _, post := range posts {
 		// get tags of post
-		_, _, tags, _ := ParsePost(post)
+		_, _, _, tags, _ := ParsePost(post)
 		for _, tag := range tags {
 			// keep count of how many posts are associated with the tag
 			all[tag]++
@@ -284,7 +295,7 @@ func PutPosts(paths []string) {
 		os.MkdirAll(full, os.ModePerm)
 
 		// parse post md
-		title, date, tags, content := ParsePost(path)
+		_, title, date, tags, content := ParsePost(path)
 
 		// add the title, href, and date to postList
 		postList = append(postList,
@@ -295,7 +306,7 @@ func PutPosts(paths []string) {
 			PAGE(
 				HEAD(title, ""),
 				HEADER(""),
-				POST(title, date, tags, content),
+				POST(path, title, date, tags, content),
 				FOOTER(YEAR, NOTE)), os.ModePerm)
 	}
 
@@ -343,7 +354,7 @@ func PutTags(tags [][]string) {
 		// populate rows
 		posts := GetPosts("posts/")
 		for _, post := range posts {
-			postTitle, postDate, postTags, _ := ParsePost(post)
+			_, postTitle, postDate, postTags, _ := ParsePost(post)
 
 			for _, postTag := range postTags {
 				// post is associated with the current tag
