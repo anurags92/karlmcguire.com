@@ -215,6 +215,8 @@ func GetPosts(path string) []string {
 	return posts
 }
 
+// GetPostTitles takes in a directory path and returns a 2d string slice of
+// post titles, dates, and hrefs. Ordered in descending order.
 func GetPostTitles(path string) [][]string {
 	posts := GetPosts(path)
 
@@ -223,7 +225,7 @@ func GetPostTitles(path string) [][]string {
 		title, date, _, _ := ParsePost(post)
 
 		titles = append(titles,
-			[]string{title, date, "/docs/" + post[:len(post)-3] + "/"})
+			[]string{title, "/posts/" + post[:len(post)-3] + "/", date})
 	}
 
 	// sort in descending order
@@ -232,10 +234,43 @@ func GetPostTitles(path string) [][]string {
 	return titles
 }
 
+// GetTags takes in a directy path and returns a string slice of tag names and
+// the number of posts with that tag.
+func GetTags(path string) [][]string {
+	// get list of all post paths
+	posts := GetPosts(path)
+
+	// will hold all tags
+	all := make(map[string]int)
+
+	for _, post := range posts {
+		// get tags of post
+		_, _, tags, _ := ParsePost(post)
+		for _, tag := range tags {
+			// keep count of how many posts are associated with the tag
+			all[tag]++
+		}
+	}
+
+	// create [][]string from map with tag name and post count string
+	out := make([][]string, 0)
+	for tag, count := range all {
+		out = append(out,
+			[]string{tag, "/tags/" + tag + "/", fmt.Sprintf("%d posts", count)})
+	}
+
+	// sort in descending order
+	sort.Sort(SortableTags(out))
+
+	return out
+}
+
 // PutPosts takes a string slice of post paths (to the markdown files) and
 // creates a directory for each post, with an index.html containing the
 // rendered post content.
 func PutPosts(paths []string) {
+	postList := make([][]string, 0)
+
 	for _, path := range paths {
 		full := "./docs/" + path[:len(path)-3] + "/"
 
@@ -245,6 +280,10 @@ func PutPosts(paths []string) {
 		// parse post md
 		title, date, tags, content := ParsePost(path)
 
+		// add the title, href, and date to postList
+		postList = append(postList,
+			[]string{title, "/" + path[:len(path)-3] + "/", date})
+
 		// write index.html
 		ioutil.WriteFile(full+"index.html",
 			PAGE(
@@ -253,6 +292,94 @@ func PutPosts(paths []string) {
 				POST(title, date, tags, content),
 				FOOTER(YEAR, NOTE)), os.ModePerm)
 	}
+
+	// sort post list descending
+	sort.Sort(SortablePosts(postList))
+
+	// /posts/
+	os.MkdirAll("./docs/posts/", os.ModePerm)
+
+	// /posts/index.html
+	ioutil.WriteFile("./docs/posts/index.html",
+		PAGE(
+			HEAD("Posts", ""),
+			HEADER(""),
+			LIST(
+				// h1
+				"Posts"+fmt.Sprintf(" (%d)", len(paths)),
+				// h1 href
+				"/posts/",
+				// rows
+				postList),
+			FOOTER(YEAR, NOTE)), os.ModePerm)
+
+}
+
+func PutTags(tags [][]string) {
+	// /tags/
+	os.MkdirAll("./docs/tags/", os.ModePerm)
+
+	// /tags/index.html
+	ioutil.WriteFile("./docs/tags/index.html",
+		PAGE(
+			HEAD("Tags", ""),
+			HEADER(""),
+			LIST("Tags"+fmt.Sprintf(" (%d)", len(tags)), "/tags/", tags),
+			FOOTER(YEAR, NOTE)), os.ModePerm)
+
+	for _, tag := range tags {
+		full := "./docs/tags/" + tag[0] + "/"
+
+		// rows will contain the post names and dates of each post associated
+		// with the current tag
+		rows := make([][]string, 0)
+
+		// populate rows
+		posts := GetPosts("posts/")
+		for _, post := range posts {
+			postTitle, postDate, postTags, _ := ParsePost(post)
+
+			for _, postTag := range postTags {
+				// post is associated with the current tag
+				if postTag == tag[0] {
+					rows = append(rows,
+						[]string{
+							postTitle,
+							"/" + post[:len(post)-3] + "/",
+							postDate})
+				}
+			}
+		}
+
+		// sort tag posts by date
+		sort.Sort(SortablePosts(rows))
+
+		// /tags/tag/
+		os.MkdirAll(full, os.ModePerm)
+
+		// /tags/tag/index.html
+		ioutil.WriteFile(full+"index.html",
+			PAGE(
+				HEAD(tag[0], ""),
+				HEADER(""),
+				LIST(
+					// h1
+					tag[0]+fmt.Sprintf(" (%d)", len(rows)),
+					// h1 href
+					"/tags/"+tag[0]+"/",
+					// list of posts using the tag
+					rows),
+				FOOTER(YEAR, NOTE)), os.ModePerm)
+	}
+}
+
+func PutIndex(posts []string) {
+	ioutil.WriteFile("./docs/index.html",
+		PAGE(
+			HEAD("Karl McGuire", ""),
+			HEADER(""),
+			nil,
+			FOOTER(YEAR, NOTE)), os.ModePerm)
 }
 
 type Sortable struct {
@@ -275,13 +402,13 @@ func SortableTags(tags [][]string) sort.Interface {
 
 		less: func(d [][]string, i, j int) bool {
 			// get the int count of i tag
-			ii, err := strconv.Atoi(d[i][1][:strings.Index(d[i][1], " ")])
+			ii, err := strconv.Atoi(d[i][2][:strings.Index(d[i][2], " ")])
 			if err != nil {
 				panic(err)
 			}
 
 			// get the int count of j tag
-			ji, err := strconv.Atoi(d[j][1][:strings.Index(d[j][1], " ")])
+			ji, err := strconv.Atoi(d[j][2][:strings.Index(d[j][2], " ")])
 			if err != nil {
 				panic(err)
 			}
@@ -303,13 +430,13 @@ func SortablePosts(posts [][]string) sort.Interface {
 			format := "January 2, 2006"
 
 			// get the date of the i post
-			it, err := time.Parse(format, d[i][1])
+			it, err := time.Parse(format, d[i][2])
 			if err != nil {
 				panic(err)
 			}
 
 			// get the date of the j post
-			jt, err := time.Parse(format, d[j][1])
+			jt, err := time.Parse(format, d[j][2])
 			if err != nil {
 				panic(err)
 			}
@@ -320,45 +447,27 @@ func SortablePosts(posts [][]string) sort.Interface {
 	}
 }
 
-func GetTags(path string) [][]string {
-	// get list of all post paths
-	posts := GetPosts(path)
-
-	// will hold all tags
-	all := make(map[string]int)
-
-	for _, post := range posts {
-		// get tags of post
-		_, _, tags, _ := ParsePost(post)
-
-		for _, tag := range tags {
-			all[tag]++
-		}
-	}
-
-	// create [][]string from map with tag name and post count string
-	out := make([][]string, 0)
-	for tag, count := range all {
-		out = append(out, []string{tag, fmt.Sprintf("%d posts", count)})
-	}
-
-	// sort in descending order
-	sort.Sort(SortableTags(out))
-
-	return out
-}
-
 func main() {
-	/*
-		os.Stdout.Write(
-			LIST(
-				"title",
-				"href",
-				[][]string{
-					{"programming", "/programming/", "5 posts"},
-					{"personal", "/personal/", "2 posts"}}))
-	*/
+	var err error
 
-	fmt.Println(GetTags("posts/"))
-	fmt.Println(GetPostTitles("posts/"))
+	if err = os.Remove("docs/index.html"); err != nil {
+		panic(err)
+	}
+
+	if err = os.RemoveAll("docs/posts/"); err != nil {
+		panic(err)
+	}
+
+	if err = os.RemoveAll("docs/tags/"); err != nil {
+		panic(err)
+	}
+
+	posts := GetPosts("posts/")
+
+	// /index.html
+	PutIndex(posts)
+	// /posts/
+	PutPosts(posts)
+	// /tags/
+	PutTags(GetTags("posts/"))
 }
