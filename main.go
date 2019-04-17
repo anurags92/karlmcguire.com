@@ -16,7 +16,11 @@ import (
 
 const (
 	YEAR = "2019"
-	NOTE = "~"
+	NOTE = `<a href="mailto:karl@karlmcguire.com">Contact</a>`
+
+	SCRIPTS = `
+	<script src="instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>InstantClick.init();</script>`
 )
 
 func PAGE(head, header, content, footer []byte) []byte {
@@ -29,7 +33,8 @@ func PAGE(head, header, content, footer []byte) []byte {
 					html.C(
 						header,
 						content,
-						footer))))), []byte{'\x00'}, []byte(""))
+						footer,
+						[]byte(SCRIPTS)))))), []byte{'\x00'}, []byte(""))
 }
 
 func HEAD(title, desc string) []byte {
@@ -51,6 +56,7 @@ func HEAD(title, desc string) []byte {
 					"name", "description",
 					"content", desc)),
 			html.E("title", nil, []byte(title)),
+			html.E("script", html.A("src", "/ic.min.js"), nil),
 			html.T("link",
 				html.A(
 					"href",
@@ -76,9 +82,9 @@ func HEADER(active string) []byte {
 	if active == "/" {
 		homeAttr = html.A("href", "/", "class", "active")
 	} else if active == "/posts/" {
-		homeAttr = html.A("href", "/posts/", "class", "active")
+		postsAttr = html.A("href", "/posts/", "class", "active")
 	} else if active == "/tags/" {
-		homeAttr = html.A("href", "/tags/", "class", "active")
+		tagsAttr = html.A("href", "/tags/", "class", "active")
 	}
 
 	return html.E("header", nil,
@@ -303,7 +309,7 @@ func PutPosts(paths []string) {
 	ioutil.WriteFile("./docs/posts/index.html",
 		PAGE(
 			HEAD("Posts", ""),
-			HEADER(""),
+			HEADER("/posts/"),
 			LIST(
 				// h1
 				"Posts"+fmt.Sprintf(" (%d)", len(paths)),
@@ -323,7 +329,7 @@ func PutTags(tags [][]string) {
 	ioutil.WriteFile("./docs/tags/index.html",
 		PAGE(
 			HEAD("Tags", ""),
-			HEADER(""),
+			HEADER("/tags/"),
 			LIST("Tags"+fmt.Sprintf(" (%d)", len(tags)), "/tags/", tags),
 			FOOTER(YEAR, NOTE)), os.ModePerm)
 
@@ -364,7 +370,7 @@ func PutTags(tags [][]string) {
 				HEADER(""),
 				LIST(
 					// h1
-					tag[0]+fmt.Sprintf(" (%d)", len(rows)),
+					"Tags / "+tag[0]+fmt.Sprintf(" (%d)", len(rows)),
 					// h1 href
 					"/tags/"+tag[0]+"/",
 					// list of posts using the tag
@@ -373,12 +379,26 @@ func PutTags(tags [][]string) {
 	}
 }
 
-func PutIndex(posts []string) {
+func PutIndex(path string) {
+	// read index md file from disk
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+
+	// parse markdown into []byte
+	data := blackfriday.Run(file)
+
 	ioutil.WriteFile("./docs/index.html",
 		PAGE(
 			HEAD("Karl McGuire", ""),
-			HEADER(""),
-			nil,
+			HEADER("/"),
+			html.E("main", nil,
+				html.E("div", html.A("class", "wrap"),
+					html.C(
+						html.E("div", html.A("class", "title"),
+							html.E("h1", nil, []byte("Hello,"))),
+						html.E("div", html.A("class", "content"), data)))),
 			FOOTER(YEAR, NOTE)), os.ModePerm)
 }
 
@@ -465,7 +485,7 @@ func main() {
 	posts := GetPosts("posts/")
 
 	// /index.html
-	PutIndex(posts)
+	PutIndex("./index.md")
 	// /posts/
 	PutPosts(posts)
 	// /tags/
