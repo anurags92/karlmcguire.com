@@ -1,0 +1,36 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica", sans-serif;
+  font-size: 16px;
+}
+
+main {
+  padding: 2rem;
+}
+  .row {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row;
+    align-items: stretch;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+    .row:first-child {
+      border-top: 1px solid #ddd;
+    }
+    .row:last-child {
+      border-bottom: 1px solid #ddd;
+    }
+    .row__box {
+      background-color: #f7f7f7;
+      border: 1px solid #ddd;
+      height: 6rem;
+      padding: 1rem;
+      flex-grow: 1;
+      color: #999;
+    }
+      .row__box--grow {
+        flex-grow: 2;
+        color: #222; 
+      }
