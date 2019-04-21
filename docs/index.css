@@ -47,7 +47,7 @@ main {
   border-bottom: 1px solid #ddd;
 }
   .content {
-    font-size: 18px;
+    font-size: 18px; 
   }
     .content > *:first-child {
       margin-top: 2rem; 
@@ -77,7 +77,6 @@ main {
     .title h1 {
       margin: 0;
       font-size: 2rem;
-      margin-bottom: 2rem;
       display: inline-block;
     }
   .meta {
@@ -86,6 +85,7 @@ main {
     display: flex;
     justify-content: space-between;
     padding-bottom: 0.5rem;
+    margin-top: 2rem;
   }
     .meta__tags {
       cursor: default; 
