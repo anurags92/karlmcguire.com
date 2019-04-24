@@ -6,7 +6,7 @@ const render = () => {
     Array.from(map).map((row) => {
         Array.from(row.childNodes).map((box) => {
             if(box.classList == undefined) return;
-           
+
             const random = Math.floor(Math.random() * Math.floor(3));
 
             if(random == 0) {
@@ -22,4 +22,4 @@ const render = () => {
     });
 };
 
-window.onload = () => render();    
+window.onload = () => render();
