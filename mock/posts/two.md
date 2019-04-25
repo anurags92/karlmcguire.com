@@ -1,7 +1,7 @@
 +++
 head = "Hello, world!"
 desc = "This is the description for this shit."
-date = "2019-04-24"
+date = "Apr 14 2019"
 tags = ["one", "two", "three"]
 +++
 

@@ -2,6 +2,7 @@
 
 local mark = require("markdown")
 local toml = require("toml")
+local date = require("date")
 
 function get_files(dir)
   local files = {}
@@ -134,14 +135,28 @@ function gen_list(posts)
     </li>]]
   end
 
-  -- TODO
-  -- sort the post listings by date
-  local function sort_date(data)
+  -- sort by date descending
+  function sort(t)
+    -- collect keys from table
+    local keys = {}
+    for k in pairs(t) do keys[#keys + 1] = k end
+
+    -- sort keys in descending order
+    table.sort(keys, function(a, b)
+      return date(t[a].meta.date) > date(t[b].meta.date)
+    end)
+
+    -- iterator
+    local i = 0
+    return function()
+      i = i + 1
+      if keys[i] then return keys[i], t[keys[i]] end
+    end
   end
 
+  -- concat each row of the post list, iterating in order of date descending
   local list = ""
-
-  for _, post in pairs(posts) do
+  for _, post in sort(posts) do
     list = list .. gen_post(post)
   end
 

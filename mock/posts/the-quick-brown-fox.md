@@ -1,7 +1,7 @@
 +++
 head = "The quick brown fox"
 desc = "This is the description for this shit."
-date = "2019-04-20"
+date = "Apr 24 2019"
 +++
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer hendrerit eros sed eros pulvinar scelerisque. Morbi eget pretium diam, nec fringilla ante. Pellentesque enim arcu, pharetra non dolor eu, volutpat tristique elit. Integer hendrerit, leo id dictum imperdiet, ex sapien porttitor tortor, id ultrices justo nisl in eros. In sodales massa ac lacinia aliquam. Nam dictum elit ac quam faucibus, vitae placerat metus lobortis. Proin sed elit in eros faucibus condimentum. Pellentesque blandit viverra nisl vitae suscipit. Pellentesque eu condimentum velit. Integer placerat, libero id placerat ultrices, elit dolor congue ante, eu posuere diam metus eu ex.
