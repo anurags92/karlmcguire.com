@@ -110,4 +110,8 @@ footer {
   color: #ccc;
   display: flex;
   justify-content: space-between;
+  cursor: default;
+}
+footer a {
+  color: #ccc;
 }

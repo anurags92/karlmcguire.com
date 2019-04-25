@@ -3,48 +3,41 @@
 local mark = require("markdown")
 local toml = require("toml")
 
--- trim removes the surrounding whitespace from a string
-function trim(s)
-  return (s:gsub("^%s*(.-)%s*$", "%1"))
-end
+-- get_posts takes a dir path param and returns a table of post objects for
+-- every post contained in the directory
+function get_posts(dir)
+  -- get_post takes a path and returns a post object
+  local function get_post(path)
+    -- trim removes leading and trailing whitespace (like python's strip())
+    local function trim(text)
+      return (text:gsub("^%s*(.-)%s*$", "%1"))
+    end
 
--- post loads a post from path and returns a table representation of it, with
--- the corresponding meta information and parsed markdown as html
-function post(path)
-  local meta = function(text)
-    return toml.parse(trim(text:sub(5, text:find("+++", 4) - 2)))
+    -- get_meta parses the toml frontmatter of the raw post markdown and returns
+    -- a meta object for use later in sorting and organization
+    local function get_meta(text)
+      return toml.parse(trim(text:sub(5, text:find("+++", 4) - 2)))
+    end
+
+    -- get_html parses the markdown sans the frontmatter and generates html
+    local function get_html(text)
+      return trim(mark(text:sub(text:find("+++", 4) + 3)))
+    end
+
+    local file = io.open(path, "r"):read("*a")
+    return {meta = get_meta(file), html = get_html(file)}
   end
 
-  local html = function(text)
-    return trim(mark(text:sub(text:find("+++", 4) + 3)))
+  -- get_list takes a path and returns a list of post paths
+  local function get_list(path)
+    local list = {}
+    for line in io.popen("ls " .. path):lines() do
+      list[#list + 1] = path .. line
+    end
+    return list
   end
 
-  local file = io.open(path, "r"):read("*a")
-
-  return {meta = meta(file), html = html(file)}
+  local posts = {}
+  for i, file in pairs(get_list(dir)) do posts[i] = get_post(file) end
+  return posts
 end
-
--- list returns a table of all post relative paths
-function list(path)
-  local temp = {}
-
-  for line in io.popen("ls " .. path):lines() do 
-    temp[#temp + 1] = path .. line
-  end
-
-  return temp
-end
-
--- posts returns a table of all posts
-function posts(dir)
-  local files = list(dir)
-  local temp = {}
-
-  for i, file in pairs(files) do
-    temp[i] = post(file)
-  end
-
-  return temp
-end
-
-print(posts("posts/")[2].meta.head)
