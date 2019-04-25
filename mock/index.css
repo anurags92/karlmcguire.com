@@ -82,6 +82,10 @@ nav > div:last-child a {
   color: #222;
   border-bottom: 1px solid #ddd;
 }
+.title a {
+  color: #222;
+  text-decoration: none;
+}
 .head .meta {
   margin-bottom: 0;
   color: #999;

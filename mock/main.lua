@@ -3,6 +3,14 @@
 local mark = require("markdown")
 local toml = require("toml")
 
+function get_files(dir)
+  local files = {}
+  for file in io.popen("ls " .. dir):lines() do
+    files[#files + 1] = dir .. file
+  end
+  return files
+end
+
 -- get_posts takes a dir path param and returns a table of post objects for
 -- every post contained in the directory
 function get_posts(dir)
@@ -29,21 +37,12 @@ function get_posts(dir)
     return {
       meta = get_meta(file),
       html = get_html(file),
-      path = path:sub(dir:len())
+      href = path:sub(dir:len()):sub(1, -4) .. "/"
     }
   end
 
-  -- get_list takes a path and returns a list of post paths
-  local function get_list(path)
-    local list = {}
-    for line in io.popen("ls " .. path):lines() do
-      list[#list + 1] = path .. line
-    end
-    return list
-  end
-
   local posts = {}
-  for i, file in pairs(get_list(dir)) do posts[i] = get_post(file) end
+  for i, file in pairs(get_files(dir)) do posts[i] = get_post(file) end
   return posts
 end
 
@@ -123,13 +122,9 @@ function gen_list(posts)
   end
 
   local function gen_post(data)
-    local function gen_href(path)
-      return path:sub(1, path:len()-3) .. "/"
-    end
-
     return [[<li class="post">
       <div class="post__title">
-        <a href="]] .. gen_href(data.path) .. [[">
+        <a href="]] .. data.href .. [[">
           <span>]] .. data.meta.head .. [[</span>
         </a>
       </div>
@@ -137,6 +132,11 @@ function gen_list(posts)
       ]] .. data.meta.date .. [[
       </div>
     </li>]]
+  end
+
+  -- TODO
+  -- sort the post listings by date
+  local function sort_date(data)
   end
 
   local list = ""
@@ -148,4 +148,25 @@ function gen_list(posts)
   return gen_map() .. [[<ul class="posts">]] .. list .. [[</ul>]]
 end
 
-print(gen_page("Karl McGuire", "index", gen_list(get_posts("posts/"))))
+function gen_post(post)
+  return [[<div class="head">
+    <h1 class="title"><a href="]] .. post.href .. [[">]]
+    .. post.meta.head .. [[</a></h1>
+    <p class="meta">]] .. post.meta.date .. [[</p>
+  </div>
+  <div class="text">
+  ]] .. post.html .. [[
+  </div>]]
+end
+
+for _, post in pairs(get_posts("posts/")) do
+  local fold = "." .. post.href
+  os.execute("rm -rf " .. fold)
+  os.execute("mkdir " .. fold)
+
+  local file = io.open(fold .. "index.html", "w+")
+  file:write(gen_page(post.meta.head, "", gen_post(post)))
+end
+
+local index = io.open("./index.html", "w+")
+index:write(gen_page("Karl McGuire", "index", gen_list(get_posts("posts/"))))
