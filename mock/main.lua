@@ -101,6 +101,8 @@ function gen_page(title, active, main)
   return [[<!doctype html><html lang="en">]] .. head .. body .. [[</html>]]
 end
 
+-- gen_list creates the main element for the index page with the list of all
+-- posts in descending order (by date)
 function gen_list(posts)
   local function gen_map()
     local boxes = ""
@@ -122,6 +124,7 @@ function gen_list(posts)
     ]]
   end
 
+  -- gen_post creates the main element for individual post pages
   local function gen_post(data)
     return [[<li class="post">
       <div class="post__title">
