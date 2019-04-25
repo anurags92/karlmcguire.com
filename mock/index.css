@@ -70,7 +70,8 @@ nav > div a {
   color: #c63535;
   text-decoration: none;
 }
-nav > div a:hover {
+nav > div a:hover,
+nav > div .active {
   text-decoration: underline;
 }
 nav > div:last-child a {
@@ -146,6 +147,7 @@ footer {
   display: flex;
   justify-content: space-between;
   cursor: default;
+  font-size: 14px;
 }
 footer a {
   color: #ccc;
