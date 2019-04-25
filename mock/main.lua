@@ -124,7 +124,7 @@ function gen_list(posts)
     ]]
   end
 
-  -- gen_post creates the main element for individual post pages
+  -- get_post creates a list item with the post href, title, and date
   local function gen_post(data)
     return [[<li class="post">
       <div class="post__title">
@@ -166,6 +166,7 @@ function gen_list(posts)
   return gen_map() .. [[<ul class="posts">]] .. list .. [[</ul>]]
 end
 
+-- gen_post creates the main element for individual post pages
 function gen_post(post)
   return [[<div class="head">
     <h1 class="title"><a href="]] .. post.href .. [[">]]
