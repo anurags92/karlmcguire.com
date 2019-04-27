@@ -56,7 +56,6 @@ function gen_page(title, active, main)
       <title>]] .. title .. [[</title>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
       <link rel="stylesheet" href="/index.css">
-      <script src="/index.js"></script>
     </head>]]
   end
 
@@ -111,9 +110,10 @@ function gen_list(posts)
     for i = 1,7 do
       boxes = boxes .. [[<div class="map__row">]]
       for a = 1, 52 do
+        delay = "opacity: " .. math.random() + 0.10 .. ";"
         boxes = boxes ..
-          [[<div id="box__]] .. (i .. "__" .. a) .. 
-          [[" class="map__box"></div>]]
+          [[<div id="box__]] .. (i .. "__" .. a) ..
+          [[" class="map__box" style="]] .. delay .. [["></div>]]
       end
       boxes = boxes .. [[</div>]]
     end

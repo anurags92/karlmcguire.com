@@ -23,7 +23,7 @@ body {
   width: 10px;
   height: 10px;
   margin: 1px;
-  background-color: #ddd;
+  background-color: #c63535;
   border-radius: 2px;
 /*  cursor: pointer;*/
 }
@@ -88,6 +88,28 @@ nav > div:last-child a {
   color: #222;
   border-bottom: 1px solid #ddd;
 }
+.head__box {
+  display: flex;
+  align-items: center;
+}
+.head__box__img {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 7rem;
+  flex-shrink: 0;
+  margin-right: 2rem;
+}
+.head__box__desc {
+  flex-shrink: 1;
+  line-height: 1.5;
+  font-size: 18px;
+}
+.head__box__desc a {
+  color: #c63535;
+  text-decoration: none;
+}
 .title a {
   color: #222;
   text-decoration: none;
@@ -96,12 +118,21 @@ nav > div:last-child a {
   margin-bottom: 0;
   color: #999;
 }
+.head--spec {
+  margin: 1rem 0;
+}
+.head--only {
+  border-bottom: 0;
+}
 
 .text {
   margin: 2rem 1rem;
   margin-bottom: 3rem;
   color: #222;
   line-height: 1.5;
+}
+.title--only {
+  margin-bottom: 0;
 }
 
 .text a {
@@ -153,6 +184,7 @@ nav > div:last-child a {
   cursor: default;
   padding: 0.25rem 1rem;
   border-radius: 3px;
+  font-size: 18px;
 }
 .post:hover {
   background-color: #f0f0f0;
