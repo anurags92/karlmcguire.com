@@ -38,6 +38,7 @@ function get_posts(dir)
     return {
       meta = get_meta(file),
       html = get_html(file),
+      text = trim(file:sub(file:find("+++", 4) + 3)),
       href = path:sub(dir:len()):sub(1, -4) .. "/"
     }
   end
@@ -56,6 +57,7 @@ function gen_page(title, active, main)
       <title>]] .. title .. [[</title>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
       <link rel="stylesheet" href="/index.css">
+      <link rel="icon" type="image/png" href="/favicon.png">
     </head>]]
   end
 
@@ -169,10 +171,16 @@ end
 
 -- gen_post creates the main element for individual post pages
 function gen_post(post)
+  words = 0
+  for word in post.text:gmatch("%w+") do
+    words = words + 1
+  end
+
   return [[<div class="head">
     <h1 class="title"><a href="]] .. post.href .. [[">]]
     .. post.meta.head .. [[</a></h1>
-    <p class="meta">]] .. post.meta.date .. [[</p>
+    <p class="meta">]] .. post.meta.date ..
+    [[ &mdash; ]] .. string.format("%.0f min read", words / 265) .. [[</p>
   </div>
   <div class="text">
   ]] .. post.html .. [[
