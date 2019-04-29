@@ -92,6 +92,9 @@ nav > div:last-child a {
   display: flex;
   align-items: center;
 }
+.head__box a:hover {
+  text-decoration: underline;
+}
 .head__box__img {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
@@ -100,6 +103,17 @@ nav > div:last-child a {
   border-radius: 7rem;
   flex-shrink: 0;
   margin-right: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.head__box__img svg {
+  fill: #aaa;
+  /*fill: #a59595;*/
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
 }
 .head__box__desc {
   flex-shrink: 1;
