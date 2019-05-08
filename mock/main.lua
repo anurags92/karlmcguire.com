@@ -4,6 +4,7 @@ local mark = require("markdown")
 local toml = require("toml")
 local date = require("date")
 
+-- get_giles returns a table list of filenames inside the directory
 function get_files(dir)
   local files = {}
   for file in io.popen("ls " .. dir):lines() do
@@ -55,7 +56,7 @@ function gen_page(title, active, main)
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>]] .. title .. [[</title>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono">
       <link rel="stylesheet" href="/index.css">
       <link rel="icon" type="image/png" href="/favicon.png">
     </head>]]
