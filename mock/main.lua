@@ -177,6 +177,8 @@ function gen_post(post)
     words = words + 1
   end
 
+  -- get next and previous post links?
+
   return [[<div class="head">
     <h1 class="title"><a href="]] .. post.href .. [[">]]
     .. post.meta.head .. [[</a></h1>
