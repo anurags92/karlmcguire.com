@@ -26,23 +26,6 @@ body {
   background-color: #c63535;
   border-radius: 2px;
 }
-.map__box__tip {
-  visibility: hidden;
-  position: relative;
-  display: block; 
-  width: max-content;
-  z-index: 1;
-  text-align: center;
-  background-color: #222;
-  color: #fff;
-  font-size: 14px;
-  padding: 0.15rem 0.35rem;
-  border-radius: 3px;
-  top: -225%;
-
-  opacity: 0;
-  transition: opacity 0.25s;
-}
 .map__box--one {
   background-color: #ebb3b3;
 }
@@ -93,23 +76,16 @@ nav > div:last-child a {
 }
 .head__box__img {
   background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  height: 7rem;
-  width: 7rem;
-  border-radius: 7rem;
+  height: 8rem;
+  width: 8rem;
+  border-radius: 8rem;
   flex-shrink: 0;
   margin-right: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
-.head__box__img svg {
-  fill: #aaa;
-  /*fill: #a59595;*/
-  width: 100%;
-  height: auto;
-  margin-top: 1rem;
+.head__box__img img {
+  height: 8rem;
+  width: 8rem;
 }
 .head__box__desc {
   flex-shrink: 1;
@@ -126,7 +102,8 @@ nav > div:last-child a {
 }
 .head .meta {
   margin-bottom: 0;
-  color: #999;
+  color: #999 !important;
+  text-decoration: none;
   display: flex;
   justify-content: space-between;
 }
@@ -296,7 +273,6 @@ footer a:hover {
   }
   .post {
     padding: 0.5rem 1.5rem;
-    text-overflow: ellipsis;
     font-size: 16px;
   }
   .post__date {

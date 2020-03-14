@@ -4,7 +4,7 @@ local mark = require("markdown")
 local toml = require("toml")
 local date = require("date")
 
--- get_giles returns a table list of filenames inside the directory
+-- get_files returns a table list of filenames inside the directory
 function get_files(dir)
   local files = {}
   for file in io.popen("ls " .. dir):lines() do
@@ -55,6 +55,7 @@ function gen_page(title, active, main)
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="format-detection" content="date=no,telephone=no">
       <title>]] .. title .. [[</title>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono">
       <link rel="stylesheet" href="/index.css">
@@ -67,7 +68,7 @@ function gen_page(title, active, main)
       <div class="wrap">
         ]] .. header .. main .. [[
         <footer>
-          &copy; 2019 Karl McGuire
+          &copy; 2020 Karl McGuire
           <span>Powered by <a href="https://lua.org">Lua</a>.</span>
         </footer>
       </div>
