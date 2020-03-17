@@ -4,6 +4,8 @@ local mark = require("markdown")
 local toml = require("toml")
 local date = require("date")
 
+local VIEW_SERVER = "http://localhost:8080"
+
 -- get_files returns a table list of filenames inside the directory
 function get_files(dir)
   local files = {}
@@ -26,12 +28,12 @@ function get_posts(dir)
     -- get_meta parses the toml frontmatter of the raw post markdown and returns
     -- a meta object for use later in sorting and organization
     local function get_meta(text)
-      return toml.parse(trim(text:sub(5, text:find("+++", 4) - 2)))
+      return toml.parse(trim(text:sub(5, text:find("---", 4) - 2)))
     end
 
     -- get_html parses the markdown sans the frontmatter and generates html
     local function get_html(text)
-      return trim(mark(text:sub(text:find("+++", 4) + 3)))
+      return trim(mark(text:sub(text:find("---", 4) + 3)))
     end
 
     local file = io.open(path, "r"):read("*a")
@@ -39,13 +41,18 @@ function get_posts(dir)
     return {
       meta = get_meta(file),
       html = get_html(file),
-      text = trim(file:sub(file:find("+++", 4) + 3)),
+      text = trim(file:sub(file:find("---", 4) + 3)),
       href = path:sub(dir:len()):sub(1, -4) .. "/"
     }
   end
 
   local posts = {}
-  for i, file in pairs(get_files(dir)) do posts[i] = get_post(file) end
+  for i, file in pairs(get_files(dir)) do 
+    local post = get_post(file)
+    if post.meta.published then
+      posts[i] = post
+    end
+  end
   return posts
 end
 
@@ -72,6 +79,15 @@ function gen_page(title, active, main)
           <span>Powered by <a href="https://lua.org">Lua</a>.</span>
         </footer>
       </div>
+      <script type="text/javascript">
+        fetch("]] .. VIEW_SERVER .. [[/views?path=" + window.location.pathname)
+          .then((res) => {
+            return res.json() 
+          })
+          .then((data) => {
+            document.getElementById("views").innerText = data 
+          })
+      </script>
     </body>]]
   end
 
@@ -134,7 +150,7 @@ function gen_list(posts)
     return [[<li class="post">
       <div class="post__title">
         <a href="]] .. data.href .. [[">
-          <span>]] .. data.meta.head .. [[</span>
+          <span>]] .. data.meta.title .. [[</span>
         </a>
       </div>
       <div class="post__date">
@@ -180,13 +196,13 @@ function gen_post(post)
 
   return [[<div class="head">
     <h1 class="title"><a href="]] .. post.href .. [[">]]
-    .. post.meta.head .. [[</a></h1>
+    .. post.meta.title .. [[</a></h1>
     <div class="head__meta">
       <span>]] .. post.meta.date .. [[ &mdash; ]]
       .. string.format("%.0f min read", words / 265) .. [[
       </span>
       <div class="head__meta__views">
-        <span class="head__meta__views__count">1,853</span>
+        <span id="views" class="head__meta__views__count"></span>
         <svg class="head__meta__views__eye" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"></path></svg> 
       </div>
     </div>
@@ -201,12 +217,10 @@ function gen_post(post)
 end
 
 for _, post in pairs(get_posts("./posts/")) do
-  local fold = "." .. post.href
-  os.execute("rm -rf " .. fold)
-  os.execute("mkdir ./docs/" .. fold)
-
-  local file = io.open("./docs/" .. fold .. "index.html", "w+")
-  file:write(gen_page(post.meta.head, "", gen_post(post)))
+  os.execute("rm -rf ./docs" .. post.href)
+  os.execute("mkdir ./docs" .. post.href)
+  local file = io.open("./docs" .. post.href .. "index.html", "w+")
+  file:write(gen_page(post.meta.title, "", gen_post(post)))
 end
 
 local index = io.open("./docs/index.html", "w+")
