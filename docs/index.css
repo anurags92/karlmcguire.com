@@ -261,7 +261,52 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.contact {
+  font-size: 18px;
+  line-height: 1.5;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -1rem;
+}
+  .contact__box {
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    width: 47%;
+  }
+    .contact__box__address {
+      text-align: center;
+      padding-bottom: 1.5rem; 
+    }
+      .contact__box__address * {
+        color: #c63535;
+        font-size: 1.5rem;
+      }
+    .contact__box__head {
+      padding: 1rem;
+      color: #555;
+      display: flex;
+      justify-content: space-between;
+    }
+
 @media only screen and (max-width: 700px) {
+  .contact {
+    flex-direction: column;
+    margin: 0 -1.5rem;
+  }
+    .contact__box {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+      .contact__box__address * {
+        font-size: 1.25rem;
+      }
+      .contact__box__head {
+        padding: 1rem 1.5rem;
+        font-size: 16px;
+      }
+      .contact__box:last-child {
+        margin-bottom: 0; 
+      }
   nav {
     margin-top: 0;
     padding: 1rem 1.5rem;
