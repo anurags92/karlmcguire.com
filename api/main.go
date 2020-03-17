@@ -32,8 +32,9 @@ func NewViews() *Views {
 func (v *Views) Saver() {
 	for i := uint64(0); ; i++ {
 		<-v.access
-		if i == 5 {
+		if i == 100 {
 			v.Save()
+			i = 0
 		}
 	}
 }
@@ -71,7 +72,10 @@ func (v *Views) Load() error {
 
 func main() {
 	views := NewViews()
-	http.HandleFunc("/view", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/views", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 		r.ParseForm()
 		fmt.Fprintf(w, "%d", views.Add(r.FormValue("path")))
 	})
