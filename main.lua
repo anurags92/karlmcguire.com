@@ -4,7 +4,7 @@ local mark = require("markdown")
 local toml = require("toml")
 local date = require("date")
 
-local VIEW_SERVER = "http://localhost:8080"
+local VIEW_SERVER = "https://api.karlmcguire.com"
 
 -- get_files returns a table list of filenames inside the directory
 function get_files(dir)
