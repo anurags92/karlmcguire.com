@@ -80,13 +80,16 @@ function gen_page(title, active, main)
         </footer>
       </div>
       <script type="text/javascript">
-        fetch("]] .. VIEW_SERVER .. [[/views?path=" + window.location.pathname)
-          .then((res) => {
-            return res.json() 
-          })
-          .then((data) => {
-            document.getElementById("views").innerText = data 
-          })
+        let views = document.getElementById("views")
+        if(views) {
+          fetch("]] .. VIEW_SERVER .. [[/views?path=" + window.location.pathname)
+            .then((res) => {
+              return res.json() 
+            })
+            .then((data) => {
+              document.getElementById("views").innerText = data 
+            })
+        }
       </script>
     </body>]]
   end

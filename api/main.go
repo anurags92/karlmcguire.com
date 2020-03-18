@@ -40,11 +40,11 @@ func (v *Views) Saver() {
 }
 
 func (v *Views) Add(path string) uint64 {
-	v.access <- struct{}{}
 	v.Lock()
 	defer v.Unlock()
 	n := v.count[path]
 	v.count[path]++
+	v.access <- struct{}{}
 	return n
 }
 
