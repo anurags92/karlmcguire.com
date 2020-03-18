@@ -73,12 +73,12 @@ func (v *Views) Load() error {
 func main() {
 	views := NewViews()
 	http.HandleFunc("/views", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		//w.Header().Set("Access-Control-Allow-Origin", "*")
+		//w.Header().Set("Access-Control-Allow-Methods", "GET")
+		//w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 		r.ParseForm()
 		fmt.Fprintf(w, "%d", views.Add(r.FormValue("path")))
 	})
-	fmt.Println("listening on :8080")
-	panic(http.ListenAndServe(":8080", nil))
+	fmt.Println("listening on :80")
+	panic(http.ListenAndServe(":80", nil))
 }
