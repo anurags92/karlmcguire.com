@@ -7,6 +7,13 @@ published = true
 
 Over the past few days, a friend has alerted to me the existence of a novel, extremely deadly virus taking Wuhan, China by storm. I don't want to make wild predictions or sound paranoid, even though by nature I am actually quite paranoid, but this seems like something that will have a significant effect on our lives in the future. I feel like I have to say something because none of my friends or family believe me.
 
+<div class="post__img">
+    <img src="/images/coronavirus-is-here-to-stay.png">
+    <div class="post__img__caption">
+        Wuhan, China - building a 1,000 bed hospital in 10 days to handle virus volume. 
+    </div>
+</div>
+
 As of yesterday, [41 people are dead in China](https://www.cnn.com/2020/01/24/china/wuhan-coronavirus-update-intl-hnk/index.html) as a result of this virus. It's currently being called the "Wuhan Coronavirus," but I expect that name to change once it goes global. The scariest aspects of this virus seem to be the fatality rate (approximately 3% as of writing), and the rate of spread (approximately 2-3 people infected per carrier as of writing). For reference, this looks a lot like the Spanish Flu that decimated the world in 1918. 
 
 At this rate, ignoring factors such as government intervention and genetic susceptibilities, I expect the US to be fully engulfed in this pandemic by March. And I don't expect the current administration to do much to mitigate this crisis. 
